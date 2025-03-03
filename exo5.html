@@ -54,19 +54,15 @@
 <body>
     <table id="dataTable">
         <tr>
-            <th>Nom</th>
             <th>Valeur</th>
         </tr>
         <tr>
-            <td>Alpha</td>
             <td>10</td>
         </tr>
         <tr>
-            <td>Beta</td>
             <td>20</td>
         </tr>
         <tr>
-            <td>Gamma</td>
             <td>30</td>
         </tr>
     </table>
@@ -101,23 +97,14 @@
             
             // Parcourir toutes les lignes (en commençant par 1 pour ignorer l'en-tête)
             for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
+                const cell = rows[i].getElementsByTagName('td')[0];
+                const cellValue = cell.innerText;
                 
-                // Parcourir toutes les cellules de la ligne
-                for (let j = 0; j < cells.length; j++) {
-                    const cellValue = cells[j].innerText;
-                    
-                    // Si la valeur de la cellule correspond à la valeur recherchée
-                    if (cellValue === valueToDelete) {
-                        // Supprimer la ligne
-                        table.deleteRow(i);
-                        rowFound = true;
-                        break;
-                    }
-                }
-                
-                // Si une ligne a été trouvée et supprimée, sortir de la boucle
-                if (rowFound) {
+                // Si la valeur de la cellule correspond à la valeur recherchée
+                if (cellValue === valueToDelete) {
+                    // Supprimer la ligne
+                    table.deleteRow(i);
+                    rowFound = true;
                     break;
                 }
             }

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtrage dynamique d'éléments</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ddd;
+        }
+        li {
+            padding: 8px 16px;
+            border-bottom: 1px solid #ddd;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li.highlighted {
+            background-color: #e7f3fe;
+        }
+        #noResultsMessage {
+            color: red;
+            font-style: italic;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Filtrage de liste</h2>
+    
+    <div class="container">
+        <input 
+            type="text" 
+            id="filterInput" 
+            placeholder="Rechercher une voiture..." 
+            oninput="filterListByStartCharacter('filterInput', 'fruitsList')">
+            
+        <ul id="fruitsList">
+            <li>Audi a3</li>
+            <li>Audi Q5</li>
+            <li>BMW X1</li>
+            <li>BMW X5</li>
+            <li>Citroen C3</li>
+            <li>Citroen C4</li>
+            <li>DACIA Duster</li>
+            <li>Ford mustang</li>
+            <li>Ford focus</li>
+            <li>Mercedes Classe G</li>
+            <li>Mercedes Classe A</li>
+            <li>Mercedes Classe C</li>
+            <li>Peugeot 208</li>
+            <li>Clio 5</li>
+            <li>Laguna</li>
+            <li>AUDI RS3</li>
+            <li>AUDI RS7</li>
+        </ul>
+        
+        <div id="noResultsMessage">Aucun résultat trouvé</div>
+    </div>
+
+    <script>
+        /**
+         * Filtre les éléments d'une liste en fonction des caractères de début
+         * @param {string} inputId - L'ID de l'élément input utilisé pour la recherche
+         * @param {string} listId - L'ID de la liste à filtrer
+         */
+        function filterListByStartCharacter(inputId, listId) {
+            // Récupère la valeur saisie dans l'input et la convertit en minuscules
+            const filterValue = document.getElementById(inputId).value.toLowerCase();
+            
+            // Récupère tous les éléments de la liste
+            const listItems = document.getElementById(listId).getElementsByTagName('li');
+            
+            // Variable pour suivre si des résultats ont été trouvés
+            let resultsFound = false;
+            
+            // Parcourt chaque élément de la liste
+            Array.from(listItems).forEach(function(item) {
+                // Récupère le texte de l'élément et le convertit en minuscules
+                const itemText = item.textContent.toLowerCase();
+                
+                // Vérifie si le texte de l'élément commence par la valeur saisie
+                if (itemText.startsWith(filterValue)) {
+                    // Affiche l'élément s'il correspond
+                    item.style.display = '';
+                    // Ajoute la classe pour mettre en évidence les résultats
+                    item.classList.add('highlighted');
+                    resultsFound = true;
+                } else {
+                    // Cache l'élément s'il ne correspond pas
+                    item.style.display = 'none';
+                    // Retire la classe de mise en évidence
+                    item.classList.remove('highlighted');
+                }
+            });
+            
+            // Affiche ou cache le message "Aucun résultat trouvé"
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            if (filterValue === '') {
+                // Si le champ de recherche est vide, afficher tous les éléments sans mise en évidence
+                Array.from(listItems).forEach(function(item) {
+                    item.style.display = '';
+                    item.classList.remove('highlighted');
+                });
+                noResultsMessage.style.display = 'none';
+            } else if (!resultsFound) {
+                // Si aucun résultat n'est trouvé, afficher le message
+                noResultsMessage.style.display = 'block';
+            } else {
+                // Si des résultats sont trouvés, cacher le message
+                noResultsMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
