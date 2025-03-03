@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppression dynamique d'une ligne d'un tableau</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .input-container {
+            margin-bottom: 15px;
+        }
+        input {
+            padding: 5px;
+            width: 60%;
+            margin-right: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        #alert {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            color: #c62828;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <table id="dataTable">
+        <tr>
+            <th>Nom</th>
+            <th>Valeur</th>
+        </tr>
+        <tr>
+            <td>Alpha</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Beta</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>Gamma</td>
+            <td>30</td>
+        </tr>
+    </table>
+    
+    <div class="input-container">
+        <input type="text" id="valueToDelete" placeholder="Valeur à supprimer">
+        <button onclick="deleteRow()">Supprimer</button>
+    </div>
+    
+    <div id="alert"></div>
+    
+    <script>
+        function deleteRow() {
+            // Récupérer la valeur entrée par l'utilisateur
+            const valueToDelete = document.getElementById('valueToDelete').value.trim();
+            const alertBox = document.getElementById('alert');
+            
+            // Cacher l'alerte précédente s'il y en a une
+            alertBox.style.display = 'none';
+            
+            // Vérifier si l'utilisateur a entré une valeur
+            if (!valueToDelete) {
+                return;
+            }
+            
+            // Récupérer toutes les lignes du tableau
+            const table = document.getElementById('dataTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            // Variable pour suivre si une ligne a été trouvée
+            let rowFound = false;
+            
+            // Parcourir toutes les lignes (en commençant par 1 pour ignorer l'en-tête)
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                
+                // Parcourir toutes les cellules de la ligne
+                for (let j = 0; j < cells.length; j++) {
+                    const cellValue = cells[j].innerText;
+                    
+                    // Si la valeur de la cellule correspond à la valeur recherchée
+                    if (cellValue === valueToDelete) {
+                        // Supprimer la ligne
+                        table.deleteRow(i);
+                        rowFound = true;
+                        break;
+                    }
+                }
+                
+                // Si une ligne a été trouvée et supprimée, sortir de la boucle
+                if (rowFound) {
+                    break;
+                }
+            }
+            
+            // Si aucune ligne n'a été trouvée, afficher un message d'alerte
+            if (!rowFound) {
+                alertBox.textContent = "La valeur '" + valueToDelete + "' n'a pas été trouvée !";
+                alertBox.style.display = 'block';
+            }
+            
+            // Réinitialiser le champ de saisie
+            document.getElementById('valueToDelete').value = '';
+        }
+    </script>
+</body>
+</html>
