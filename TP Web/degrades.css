@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+.container {
+    width: 60%;
+}
+.box {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+.gradient-1 { background: linear-gradient(to right,  #3498db, #8e44ad);  }
+.gradient-2 { background: linear-gradient(to right, red, yellow); }
+.gradient-3 { background: linear-gradient(to bottom, #2ecc71, #f1c40f); 
+    color: black;
+
+}
+.gradient-4 { background: linear-gradient(to bottom, turquoise, purple); }
+.gradient-5 { background: linear-gradient(to left, rgb(196, 210, 47), yellow); 
+    color: black;
+}
+
+@media screen and (max-width: 479px) {
+    .container{
+        transform: rotate(90deg);
+        display: flex;
+        flex-direction: column;
+        width: 100vh;
+        height: 100vw;
+    }
+    .gradient-1 { order: 3; }
+    .gradient-2 { order: 1; }
+    .gradient-3 { order: 5; }
+    .gradient-4 { order: 2; }
+    .gradient-5 { order: 4; }
+}

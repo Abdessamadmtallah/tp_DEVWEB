@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Interactif</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .slider-container {
+          
+            padding-bottom: 1rem;
+            width: 300px;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .slide img {
+            width: 250px;
+            height: 250px;
+            object-fit: contain;
+            /* Animation de saut */
+            animation: jump 1s infinite alternate;
+        }
+        
+        /* Définition de l'animation de saut */
+        @keyframes jump {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .nav-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #ccc;
+        }
+        
+        .nav-button.active {
+            background-color: #2415fc;
+            color: white;
+        }
+        
+        .product-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #2415ff;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <div class="slide">
+                <h3>choisir une basket</h3>
+                <img src="/image/shose1.jpg" alt="Basket 1">
+                <div class="product-info">
+                   
+                    <p class="price">129.99 €</p>
+                </div>
+                <div class="navigation">
+                    <div class="nav-button active" onclick="changeSlide(0)">1</div>
+                    <div class="nav-button" onclick="changeSlide(1)">2</div>
+                    <div class="nav-button" onclick="changeSlide(2)">3</div>
+                    <div class="nav-button" onclick="changeSlide(3)">4</div>
+                </div>
+            </div>
+            <div class="slide">
+                <h3>choisir une basket</h3>
+                <img src="/image/shose2.jpg" alt="Basket 2">
+                <div class="product-info">
+                    
+                    <p class="price">149.99 €</p>
+                </div>
+                <div class="navigation">
+                    <div class="nav-button" onclick="changeSlide(0)">1</div>
+                    <div class="nav-button active" onclick="changeSlide(1)">2</div>
+                    <div class="nav-button" onclick="changeSlide(2)">3</div>
+                    <div class="nav-button" onclick="changeSlide(3)">4</div>
+                </div>
+            </div>
+            <div class="slide">
+                <h3>choisir une basket</h3>
+                <img src="/image/shose3.jpg" alt="Basket 3">
+                <div class="product-info">
+                    
+                    <p class="price">119.99 €</p>
+                </div>
+                <div class="navigation">
+                    <div class="nav-button" onclick="changeSlide(0)">1</div>
+                    <div class="nav-button" onclick="changeSlide(1)">2</div>
+                    <div class="nav-button active" onclick="changeSlide(2)">3</div>
+                    <div class="nav-button" onclick="changeSlide(3)">4</div>
+                </div>
+            </div>
+            <div class="slide">
+                <h3>choisir une basket</h3>
+                <img src="/image/shose2.jpg" alt="Basket 4">
+                <div class="product-info">
+                    
+                    <p class="price">99.99 €</p>
+                </div>
+                <div class="navigation">
+                    <div class="nav-button" onclick="changeSlide(0)">1</div>
+                    <div class="nav-button" onclick="changeSlide(1)">2</div>
+                    <div class="nav-button" onclick="changeSlide(2)">3</div>
+                    <div class="nav-button active" onclick="changeSlide(3)">4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour changer de slide
+        function changeSlide(index) {
+            // Récupérer l'élément slider
+            const slider = document.getElementById('slider');
+            
+            // Calculer la position de translation en multipliant l'index par la largeur (-300px)
+            const position = -300 * index;
+            
+            // Appliquer la transformation CSS pour déplacer le slider
+            slider.style.transform = `translateX(${position}px)`;
+            
+            // Mettre à jour les boutons de navigation actifs
+            const navButtons = document.querySelectorAll('.nav-button');
+            
+            // Parcourir tous les boutons pour mettre à jour leur état
+            navButtons.forEach((button, i) => {
+                // Pour chaque groupe de navigation (un par slide)
+                const buttonGroups = document.querySelectorAll('.navigation');
+                buttonGroups.forEach(group => {
+                    const groupButtons = group.querySelectorAll('.nav-button');
+                    // Mettre à jour la classe active selon l'index
+                    groupButtons.forEach((btn, j) => {
+                        if (j === index) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+    </script>
+
+    <!-- Explications des questions demandées -->
+    <!--
+    Explication de @keyframes jump:
+    La règle @keyframes jump définit une animation qui fait "sauter" l'image. 
+    - À 0% de l'animation (état initial), l'image est à sa position d'origine (translateY(0))
+    - À 100% de l'animation (état final), l'image est déplacée de 20px vers le haut (translateY(-20px))
+    Cette animation est appliquée aux images avec "animation: jump 1s infinite alternate;"
+    - 1s = durée de l'animation
+    - infinite = l'animation se répète indéfiniment
+    - alternate = l'animation alterne entre l'état initial et final (monte puis descend)
+    
+    Explication de la fonction changeSlide:
+    La fonction changeSlide(index) permet de changer l'image affichée dans le slider:
+    1. Elle récupère l'élément slider
+    2. Elle calcule la position horizontale en multipliant l'index par -300px
+    3. Elle applique cette transformation avec translateX pour déplacer le slider
+    4. Elle met à jour les classes 'active' des boutons de navigation
+    
+    Lien entre la valeur 300 dans changeSlide et les propriétés CSS:
+    - .slider-container a une width: 300px; qui définit la largeur visible du conteneur
+    - .slide a une min-width: 100%; qui fait que chaque slide prend 100% de la largeur du conteneur (300px)
+    - Dans changeSlide(), on utilise -300 * index pour calculer le déplacement horizontal du slider
+    Ces trois éléments sont liés: la largeur du conteneur (300px) détermine la distance de déplacement 
+    nécessaire pour passer d'une slide à l'autre. Chaque slide remplit 100% de cette largeur, donc pour 
+    afficher la slide 2, il faut déplacer le slider de -300px, pour la slide 3, de -600px, etc.
+    -->
+</body>
+</html>
